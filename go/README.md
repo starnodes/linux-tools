@@ -1,6 +1,8 @@
-## Настройка файла подкачки на сервере linux | quick start
+## Настройка файла подкачки на сервере linux
 
-go ver 1.17.2
+### quick start
+
+go ver = 1.17.2
 
 ```sh
 sudo wget -qO $HOME/go-install.sh https://raw.githubusercontent.com/starnodes/linux-tools/main/swap-install/swap.sh
