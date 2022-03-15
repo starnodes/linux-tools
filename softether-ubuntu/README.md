@@ -5,7 +5,7 @@
 Install VPN Server
 
 ```sh
-sudo wget -qO $HOME/swap-install.sh https://raw.githubusercontent.com/starnodes/linux-tools/main/softether-ubuntu/softether-install.sh
+sudo wget -qO $HOME/softether-install.sh https://raw.githubusercontent.com/starnodes/linux-tools/main/softether-ubuntu/softether-install.sh
 chmod +x $HOME/softether-install.sh && $HOME/softether-install.sh
 ```
 
