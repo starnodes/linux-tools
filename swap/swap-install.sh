@@ -1,3 +1,4 @@
+#!/bin/bash
 sudo swapoff -a
 rm "/swapfile"
 sudo fallocate -l 4G /swapfile

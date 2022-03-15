@@ -1,3 +1,4 @@
+#!/bin/bash
 cd $HOME
 ver="1.17.2"
 wget "https://golang.org/dl/go$ver.linux-amd64.tar.gz"
