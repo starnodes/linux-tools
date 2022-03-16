@@ -10,7 +10,7 @@
 ### END INIT INFO
 DAEMON=/opt/vpnserver/vpnserver
 LOCK=/var/lock/subsys/vpnserver
-TAP_ADDR=10.42.10.1
+TAP_ADDR=10.42.10.1/24
 
 test -x $DAEMON || exit 0
 case "$1" in
