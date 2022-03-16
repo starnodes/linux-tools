@@ -1,4 +1,6 @@
 #!/bin/bash
+RED='\033[0;31m'
+NC='\033[0m' # No Color
 timedatectl set-timezone Europe/Moscow
 sudo ufw allow 443,1194,5555/tcp && ufw allow 500,1701,4500/udp
 sudo apt update
@@ -16,7 +18,7 @@ cd vpnserver; \
 mkdir /opt/vpnserver/
 mv -b vpnserver vpncmd hamcore.se2 /opt/vpnserver/
 
-PS3='First connect to your SoftEther server with Manager and create local vpn bridge with New Tap Device "soft"! If unsure or are using SecureNAT, select No. Select number:'
+PS3='First connect to your SoftEther server with Manager and create local vpn bridge with New Tap Device "soft"! If unsure or are using SecureNAT, select No. Select number: '
 options=("Yes" "No" "Quit")
 select opt in "${options[@]}"
 do
@@ -35,8 +37,8 @@ case $opt in
         systemctl restart dnsmasq
         systemctl enable dnsmasq
         systemctl is-active --quiet vpnserver && echo "Service vpnserver is running.\n\n"
-        printf "\nDo not forget enable UFW!!!\n\n"
-        printf "\nIMPORTANT !!! If you haven't created a local bridge yet with New Tap Device "soft" by using the SoftEther VPN Server Manager then DO IT. It is important that after you add the local bridge, you restart both dnsmasq and the vpnserver!\n\n"
+        printf "\n${RED}Do not forget enable UFW!!!\n\n"
+        printf "\n${RED}IMPORTANT !!!\n\n${NC} If you haven't created a local bridge yet with New Tap Device "soft" by using the SoftEther VPN Server Manager then DO IT. It is important that after you add the local bridge, you restart both dnsmasq and the vpnserver!\n\n"
 	      sleep 5s
         break
             ;;
@@ -47,14 +49,15 @@ case $opt in
         update-rc.d vpnserver defaults > /dev/null 2>&1
         printf "\nSoftEther VPN Server should now start as a system service from now on.\n\n"
         systemctl start vpnserver
+        sleep 10
         cp /opt/vpnserver/vpn_server.config /opt/vpnserver/vpn_server.config.bak
         sed -i '1,50s/bool Disabled false/bool Disabled true/' /opt/vpnserver/vpn_server.config
         sed -i 's/bool DisableNatTraversal false/bool DisableNatTraversal true/' /opt/vpnserver/vpn_server.config
         sed -i 's/bool DisableUdpAcceleration false/bool DisableUdpAcceleration true/' /opt/vpnserver/vpn_server.config
         systemctl restart vpnserver
         systemctl is-active --quiet vpnserver && echo "Service vpnserver is running."
-	      printf "\nDo not forget enable UFW!!!\n\n"
-        printf "\n!!! IMPORTANT !!!\n\nPlese configure the server with SecureNAT, use the SoftEther VPN Server Manager!!!\n\n"
+	      printf "\n${RED}Do not forget enable UFW!!!\n\n"
+        printf "\n${RED}!!! IMPORTANT !!!\n\n${NC} Plese configure the server with SecureNAT, use the SoftEther VPN Server Manager!!!\n\n"
         break
             ;;
         "Quit")
