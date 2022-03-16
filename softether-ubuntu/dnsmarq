@@ -1,0 +1,7 @@
+port=0
+# Specify what interface to use, in our case we're using "soft"
+interface=tap_soft
+# Set DHCP range, 10.42.10.10 - 10.42.10.100 with a 12 hour lease time
+dhcp-range=tap_soft,10.42.10.10,10.42.10.100,12h
+# Set DHCP default gateway
+dhcp-option=tap_soft,3,10.42.10.1
