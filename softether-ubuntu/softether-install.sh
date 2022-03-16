@@ -43,6 +43,10 @@ case $opt in
         sed -i 's/bool DisableUdpAcceleration false/bool DisableUdpAcceleration true/' /opt/vpnserver/vpn_server.config
         systemctl restart vpnserver
         systemctl is-active --quiet vpnserver && echo "Service vpnserver is running.\n\n"
+        printf "\nIPv4 Forward activation\n\n"
+        ufw allow 67,68/udp
+        sed -i 's/#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/' /etc/sysctl.conf
+        sysctl -p
         printf "\n${RED}Do not forget enable UFW!!!\n\n"
         printf "\n${RED}IMPORTANT !!!\n\n${NC} If you haven't created a local bridge yet with New Tap Device "soft" by using the SoftEther VPN Server Manager then DO IT. It is important that after you add the local bridge, you restart both dnsmasq and the vpnserver!\n\n"
 	      sleep 5s
