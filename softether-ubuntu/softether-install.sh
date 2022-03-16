@@ -1,6 +1,6 @@
 #!/bin/bash
 timedatectl set-timezone Europe/Moscow
-ufw allow 443,1194,5555/tcp && ufw allow 500,1701,4500/udp
+sudo ufw allow 443,1194,5555/tcp && ufw allow 500,1701,4500/udp
 sudo apt update
 sudo apt install -y jq wget mc build-essential pkg-config cmake libncurses-dev libssl-dev zlib1g-dev libsodium-dev libpthread-stubs0-dev libncurses5-dev libreadline6-dev
 sudo systemctl stop vpnserver.service
@@ -16,7 +16,7 @@ cd vpnserver; \
 mkdir /opt/vpnserver/
 mv -b vpnserver vpncmd hamcore.se2 /opt/vpnserver/
 
-PS3='\nFirst connect to your SoftEther server with Manager and create local vpn bridge with New Tap Device "soft"! If unsure or are using SecureNAT, select No.\n\n'
+PS3='First connect to your SoftEther server with Manager and create local vpn bridge with New Tap Device "soft"! If unsure or are using SecureNAT, select No. Select number:'
 options=("Yes" "No" "Quit")
 select opt in "${options[@]}"
 do
@@ -34,7 +34,6 @@ case $opt in
         systemctl start vpnserver
         systemctl restart dnsmasq
         systemctl enable dnsmasq
-        printf "\nCleaning up...\n\n"
         systemctl is-active --quiet vpnserver && echo "Service vpnserver is running.\n\n"
         printf "\nDo not forget enable UFW!!!\n\n"
         printf "\nIMPORTANT !!! If you haven't created a local bridge yet with New Tap Device "soft" by using the SoftEther VPN Server Manager then DO IT. It is important that after you add the local bridge, you restart both dnsmasq and the vpnserver!\n\n"
@@ -53,7 +52,6 @@ case $opt in
         sed -i 's/bool DisableNatTraversal false/bool DisableNatTraversal true/' /opt/vpnserver/vpn_server.config
         sed -i 's/bool DisableUdpAcceleration false/bool DisableUdpAcceleration true/' /opt/vpnserver/vpn_server.config
         systemctl restart vpnserver
-        printf "\nCleaning up...\n\n"
         systemctl is-active --quiet vpnserver && echo "Service vpnserver is running."
 	      printf "\nDo not forget enable UFW!!!\n\n"
         printf "\n!!! IMPORTANT !!!\n\nPlese configure the server with SecureNAT, use the SoftEther VPN Server Manager!!!\n\n"
@@ -65,4 +63,4 @@ case $opt in
         *) echo "invalid option $REPLY";;
     esac
 done
-esac
+exit 0
