@@ -77,7 +77,7 @@ PS3='Do you need to auto configure UFW and IPTABLES for local bridge setup? Sele
     case $opt in
 "Yes")
 ufw allow 67,68/udp
-ufw enable
+echo Y | ufw enable
 WANIP=`wget -O - -q ifconfig.me/ip`
 iptables -t nat -A POSTROUTING -s 10.42.10.0/24 -j SNAT --to-source $WANIP
 sudo debconf-set-selections <<EOF
