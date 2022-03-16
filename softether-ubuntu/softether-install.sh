@@ -44,16 +44,15 @@ case $opt in
         systemctl restart vpnserver
         systemctl is-active --quiet vpnserver && echo "Service vpnserver is running.\n\n"
         printf "\nIPv4 Forward activation\n\n"
-        ufw allow 67,68/udp
         sed -i 's/#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/' /etc/sysctl.conf
         sysctl -p
         printf "\n${RED}Do not forget enable UFW!!!\n\n"
-        printf "\n${RED}IMPORTANT !!!\n\n${NC} If you haven't created a local bridge yet with New Tap Device "soft" by using the SoftEther VPN Server Manager then DO IT. It is important that after you add the local bridge, you restart both dnsmasq and the vpnserver!\n\n"
+        printf "\n${RED}IMPORTANT !!!\n\n${NC}If you haven't created a local bridge yet with New Tap Device "soft" by using the SoftEther VPN Server Manager then DO IT. It is important that after you add the local bridge, you restart both dnsmasq and the vpnserver!\n\n"
 	      sleep 5s
         break
             ;;
         "No")
-	       printf "\nSystem daemon setup. Registering changes...\n\n"
+	      printf "\nSystem daemon setup. Registering changes...\n\n"
         wget -qO /etc/init.d/vpnserver https://raw.githubusercontent.com/starnodes/linux-tools/main/softether-ubuntu/service-SN > /dev/null 2>&1
         chmod 755 /etc/init.d/vpnserver
         update-rc.d vpnserver defaults > /dev/null 2>&1
@@ -70,4 +69,28 @@ case $opt in
         *) echo "invalid option $REPLY";;
     esac
 done
-exit 0
+
+PS3='Do you need to auto configure UFW and IPTABLES for local bridge setup? Select number: '
+  options=("Yes" "No")
+  select opt in "${options[@]}"
+  do
+    case $opt in
+"Yes")
+ufw allow 67,68/udp
+ufw enable
+WANIP=`wget -O - -q ifconfig.me/ip`
+iptables -t nat -A POSTROUTING -s 10.42.10.0/24 -j SNAT --to-source $WANIP
+sudo debconf-set-selections <<EOF
+iptables-persistent iptables-persistent/autosave_v4 boolean true
+iptables-persistent iptables-persistent/autosave_v6 boolean true
+EOF
+sudo apt -y install iptables-persistent
+systemctl restart vpnserver dnsmasq
+printf "\nFirewall is configured. All done!!!\n\n"
+break
+    ;;
+"No")
+printf "\nSet up a firewall yourself. Interface "tap_soft", Network "10.42.10.0/24"\n\n"
+break
+esac
+done
