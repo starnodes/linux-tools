@@ -23,7 +23,7 @@ do
 case $opt in
 "Yes")
         printf "\nDNSMASQ setup.\n\n"
-        apt install -y dnsmasq
+        apt install -y dnsmasq net-tools
         cp /etc/dnsmasq.conf /etc/dnsmasq.conf.bak
         wget -qO /etc/dnsmasq.conf https://raw.githubusercontent.com/starnodes/linux-tools/main/softether-ubuntu/dnsmarq > /dev/null 2>&1
         printf "\nSystem daemon setup. Registering changes...\n\n"
