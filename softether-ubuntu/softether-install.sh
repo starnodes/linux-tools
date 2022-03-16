@@ -7,7 +7,6 @@ sudo apt update
 sudo apt install -y jq wget mc build-essential pkg-config cmake libncurses-dev libssl-dev zlib1g-dev libsodium-dev libpthread-stubs0-dev libncurses5-dev libreadline6-dev
 sudo systemctl stop vpnserver.service
 
-rm -rf $HOME/vpnserver
 cd; \
 SEversion=`wget -qO- https://api.github.com/repos/SoftEtherVPN/SoftEtherVPN_Stable/releases/latest | jq -r '.assets | .[].browser_download_url' | grep linux-x64-64bit | grep vpnserver`; \
 wget -qO softethervpn.tar.gz ${SEversion}; \
@@ -77,16 +76,19 @@ PS3='Do you need to auto configure UFW and IPTABLES for local bridge setup? Sele
     case $opt in
 "Yes")
 ufw allow 67,68/udp
-echo Y | ufw enable
+sed -i 's/DEFAULT_FORWARD_POLICY="DROP"/DEFAULT_FORWARD_POLICY="ACCEPT"/' /etc/default/ufw
 WANIP=`wget -O - -q ifconfig.me/ip`
+ETHWAN=`ip route get 8.8.8.8 | awk '{print $ 5}'`
 iptables -t nat -A POSTROUTING -s 10.42.10.0/24 -j SNAT --to-source $WANIP
+iptables -t nat -A POSTROUTING -s 10.42.10.0/24 -o $ETHWAN -j MASQUERADE
+echo y | ufw enable
 sudo debconf-set-selections <<EOF
 iptables-persistent iptables-persistent/autosave_v4 boolean true
 iptables-persistent iptables-persistent/autosave_v6 boolean true
 EOF
 sudo apt -y install iptables-persistent
 systemctl restart vpnserver dnsmasq
-printf "\nFirewall is configured. All done!!!\n\n"
+printf "\nFirewall is configured.\n\n"
 break
     ;;
 "No")
@@ -94,3 +96,7 @@ printf "\nSet up a firewall yourself. Interface "tap_soft", Network "10.42.10.0/
 break
 esac
 done
+rm -rf $HOME/vpnserver
+rm -f softethervpn.tar.gz
+rm -f softether-install.sh
+printf "\nAll done!!!\n\n"
