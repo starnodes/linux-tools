@@ -36,6 +36,12 @@ case $opt in
         systemctl start vpnserver
         systemctl restart dnsmasq
         systemctl enable dnsmasq
+        sleep 10
+        cp /opt/vpnserver/vpn_server.config /opt/vpnserver/vpn_server.config.bak
+        sed -i '1,50s/bool Disabled false/bool Disabled true/' /opt/vpnserver/vpn_server.config
+        sed -i 's/bool DisableNatTraversal false/bool DisableNatTraversal true/' /opt/vpnserver/vpn_server.config
+        sed -i 's/bool DisableUdpAcceleration false/bool DisableUdpAcceleration true/' /opt/vpnserver/vpn_server.config
+        systemctl restart vpnserver
         systemctl is-active --quiet vpnserver && echo "Service vpnserver is running.\n\n"
         printf "\n${RED}Do not forget enable UFW!!!\n\n"
         printf "\n${RED}IMPORTANT !!!\n\n${NC} If you haven't created a local bridge yet with New Tap Device "soft" by using the SoftEther VPN Server Manager then DO IT. It is important that after you add the local bridge, you restart both dnsmasq and the vpnserver!\n\n"
@@ -49,12 +55,6 @@ case $opt in
         update-rc.d vpnserver defaults > /dev/null 2>&1
         printf "\nSoftEther VPN Server should now start as a system service from now on.\n\n"
         systemctl start vpnserver
-        sleep 10
-        cp /opt/vpnserver/vpn_server.config /opt/vpnserver/vpn_server.config.bak
-        sed -i '1,50s/bool Disabled false/bool Disabled true/' /opt/vpnserver/vpn_server.config
-        sed -i 's/bool DisableNatTraversal false/bool DisableNatTraversal true/' /opt/vpnserver/vpn_server.config
-        sed -i 's/bool DisableUdpAcceleration false/bool DisableUdpAcceleration true/' /opt/vpnserver/vpn_server.config
-        systemctl restart vpnserver
         systemctl is-active --quiet vpnserver && echo "Service vpnserver is running."
 	      printf "\n${RED}Do not forget enable UFW!!!\n\n"
         printf "\n${RED}!!! IMPORTANT !!!\n\n${NC} Plese configure the server with SecureNAT, use the SoftEther VPN Server Manager!!!\n\n"
