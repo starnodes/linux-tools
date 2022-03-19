@@ -18,7 +18,9 @@ echo -e "linuxpassword\nlinuxpassword" | passwd root
 
 make archive
 
+```sh
 tar cfvz example.tar.gz exampledir
+```
 
 download archive
 
