@@ -46,3 +46,10 @@ netstat -tulpn
 -l - Show only listening ports.
 
 -p - Show the PID and name of the listener’s process. This information is shown only if you run the command as root or sudo user.
+
+### SElinux permissive Centos
+
+```sh
+sudo setenforce 0
+sudo sed -i "s/SELINUX=enforcing/SELINUX=permissive/" /etc/selinux/config
+```
