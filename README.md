@@ -8,6 +8,12 @@ sudo sed -i 's/#Port 22/Port 34777/' /etc/ssh/sshd_config
 ufw allow 34777/tcp
 systemctl restart sshd
 ```
+### change timezone
+
+```sh
+timedatectl set-timezone Europe/Moscow
+```
+
 ### ssh root login enable
 
 ```sh
