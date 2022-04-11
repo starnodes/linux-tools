@@ -17,7 +17,7 @@ timedatectl set-timezone Europe/Moscow
 
 ```sh
 sudo apt update
-sudo apt install htop mc curl tar wget clang pkg-config libssl-dev jq build-essential bsdmainutils git make ncdu gcc git jq chrony liblz4-tool -y
+sudo apt install htop mc curl tar wget clang pkg-config libssl-dev jq build-essential bsdmainutils git make ncdu gcc git jq chrony net-tools liblz4-tool -y
 ```
 
 ### ssh root login enable
