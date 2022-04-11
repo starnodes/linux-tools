@@ -59,6 +59,12 @@ netstat -tulpn
 
 -p - Show the PID and name of the listener’s process. This information is shown only if you run the command as root or sudo user.
 
+### Linux performance test
+
+```sh
+wget -qO- bench.sh|bash
+```
+
 ### SElinux permissive Centos
 
 ```sh
