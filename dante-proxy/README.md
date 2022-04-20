@@ -4,7 +4,7 @@
 
 #### Dante proxy server auto install
 
-Add user after instalation:
+Add user after installation (proxy_user_01 :: password_user_01):
 
 ```sh
 useradd --shell /usr/sbin/nologin proxy_user_01
