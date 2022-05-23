@@ -13,6 +13,14 @@ systemctl restart sshd
 ```sh
 timedatectl set-timezone Europe/Moscow
 ```
+
+### swap usage change
+
+```sh
+echo "vm.swappiness=10" >> /etc/sysctl.conf
+sysctl -p
+```
+
 ### required packages
 
 ```sh
