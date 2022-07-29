@@ -87,6 +87,9 @@ iptables-persistent iptables-persistent/autosave_v4 boolean true
 iptables-persistent iptables-persistent/autosave_v6 boolean true
 EOF
 sudo apt -y install iptables-persistent
+echo "#! /sbin/iptables-restore" > /etc/network/if-up.d/iptables-rules
+iptables-save >> /etc/network/if-up.d/iptables-rules
+chmod +x /etc/network/if-up.d/iptables-rules
 systemctl restart vpnserver dnsmasq
 printf "\nFirewall is configured.\n\n"
 break
