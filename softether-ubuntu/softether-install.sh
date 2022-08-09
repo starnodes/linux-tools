@@ -69,33 +69,50 @@ case $opt in
     esac
 done
 
-PS3='Do you need to auto configure UFW and IPTABLES for local bridge setup? Select number: '
+PS3='Do you need to install IPTABLES and remove UFW for local bridge FIREWALL setup? (ssh port used 22 or 34777) Select number: '
   options=("Yes" "No")
   select opt in "${options[@]}"
   do
     case $opt in
 "Yes")
-ufw allow 67,68/udp
-sed -i 's/DEFAULT_FORWARD_POLICY="DROP"/DEFAULT_FORWARD_POLICY="ACCEPT"/' /etc/default/ufw
+sudo apt-get remove --auto-remove ufw -y
+sudo apt-get purge --auto-remove ufw -y
+sudo rm -Rf /etc/ufw/
+sudo apt-get install -y iptables
+sudo systemctl enable iptables
+sudo systemctl restart iptables
+sudo iptables --version
+echo -e "net.ipv6.conf.all.disable_ipv6 = 1\nnet.ipv6.conf.default.disable_ipv6 = 1" >> /etc/sysctl.conf
+sudo sysctl -p
 WANIP=`wget -O - -q ifconfig.me/ip`
 ETHWAN=`ip route get 8.8.8.8 | awk '{print $ 5}'`
-iptables -t nat -A POSTROUTING -s 10.42.10.0/24 -j SNAT --to-source $WANIP
+sudo iptables -F
+sudo iptables -t nat -F
+sudo iptables -t mangle -F
+sudo iptables -A FORWARD -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+sudo iptables -A FORWARD -i tap_soft -o $ETHWAN -j ACCEPT
+sudo iptables -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+sudo iptables -A INPUT -p tcp -m multiport --dports 22,34777 -j ACCEPT
+sudo iptables --policy INPUT DROP
+sudo iptables --policy OUTPUT ACCEPT
+sudo iptables --policy FORWARD DROP
+sudo iptables -A INPUT -p tcp -m multiport --dports 443,1194,5555 -j ACCEPT
+sudo iptables -A INPUT -p udp -m multiport --dports 500,1701,4500,1194 -j ACCEPT
+sudo iptables -A INPUT -p udp -m multiport --dports 67,68 -j ACCEPT
+sudo iptables -A INPUT -p udp -m udp --dport 53 -j ACCEPT
 iptables -t nat -A POSTROUTING -s 10.42.10.0/24 -o $ETHWAN -j MASQUERADE
-echo y | ufw enable
 sudo debconf-set-selections <<EOF
 iptables-persistent iptables-persistent/autosave_v4 boolean true
-iptables-persistent iptables-persistent/autosave_v6 boolean true
+iptables-persistent iptables-persistent/autosave_v6 boolean false
 EOF
-sudo apt -y install iptables-persistent
-echo "#! /sbin/iptables-restore" > /etc/network/if-up.d/iptables-rules
-iptables-save >> /etc/network/if-up.d/iptables-rules
-chmod +x /etc/network/if-up.d/iptables-rules
+sudo apt install -y iptables-persistent
+sudo iptables-save > /etc/iptables/rules.v4
 systemctl restart vpnserver dnsmasq
 printf "\nFirewall is configured.\n\n"
 break
     ;;
 "No")
-printf "\nSet up a firewall yourself. Interface "tap_soft", Network "10.42.10.0/24"\n\n"
+printf "\nSet up a firewall yourself. Interface "tap_soft", Network "10.42.10.0/24", PORTS used 443,1194,5555/tcp 500,1701,4500/udp 67,68/udp 22,34777/tcp\n\n"
 break
 esac
 done
