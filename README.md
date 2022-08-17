@@ -12,6 +12,11 @@ systemctl restart sshd
 
 ```sh
 timedatectl set-timezone Europe/Moscow
+apt -y install chrony
+systemctl restart chrony && systemctl enable chrony
+or RHEL
+yum -y install chrony
+systemctl restart chronyd && systemctl enable chronyd
 ```
 
 ### swap usage change
