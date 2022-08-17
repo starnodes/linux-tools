@@ -14,7 +14,11 @@ systemctl restart sshd
 timedatectl set-timezone Europe/Moscow
 apt -y install chrony
 systemctl restart chrony && systemctl enable chrony
+```
+
 or RHEL
+
+```sh
 yum -y install chrony
 systemctl restart chronyd && systemctl enable chronyd
 ```
