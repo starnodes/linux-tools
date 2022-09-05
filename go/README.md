@@ -2,7 +2,7 @@
 
 ### quick start
 
-go ver = 1.17.2
+go ver = 1.18.5
 
 ```sh
 sudo wget -qO $HOME/go-install.sh https://raw.githubusercontent.com/starnodes/linux-tools/main/go/go-install.sh
