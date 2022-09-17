@@ -39,11 +39,13 @@ sudo apt update
 sudo apt install htop mc curl tar wget clang pkg-config libssl-dev jq build-essential bsdmainutils git make ncdu gcc git jq chrony net-tools liblz4-tool -y
 ```
 
-### ssh root login enable
+### ssh root login enable + random root password generation
 
 ```sh
+PASS=`openssl rand -base64 15`
 sudo sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
-echo -e "linuxpassword\nlinuxpassword" | passwd root
+echo -e "$PASS\n$PASS" | passwd root
+echo $PASS
 ```
 ### sftp file download
 
