@@ -2,7 +2,7 @@
 
 ### quick start
 
-swap file = 4G
+swap file = 8G
 
 ```sh
 sudo wget -qO $HOME/swap-install.sh https://raw.githubusercontent.com/starnodes/linux-tools/main/swap/swap-install.sh
