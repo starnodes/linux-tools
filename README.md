@@ -88,13 +88,13 @@ wget -qO- bench.sh|bash
 #### Disk speed
 
 ```sh
-install iotop
+sudo apt install iotop
 iotop
 ```
 #### Network speed
 
 ```sh
-apt install nload
+sudo apt install nload
 nload
 ```
 
