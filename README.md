@@ -85,6 +85,18 @@ netstat -tulpn
 ```sh
 wget -qO- bench.sh|bash
 ```
+#### Disk speed
+
+```sh
+install iotop
+iotop
+```
+#### Network speed
+
+```sh
+apt install nload
+nload
+```
 
 ### SElinux permissive Centos
 
