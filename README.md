@@ -36,7 +36,7 @@ sysctl -p
 
 ```sh
 sudo apt update
-sudo apt install htop mc curl tar wget clang pkg-config libssl-dev jq build-essential bsdmainutils git make ncdu gcc git jq chrony net-tools liblz4-tool -y
+sudo apt install htop mc curl tar wget clang pkg-config libssl-dev jq build-essential bsdmainutils git make ncdu gcc git jq chrony net-tools liblz4-tool iotop nload -y
 ```
 
 ### ssh root login enable + random root password generation
@@ -85,16 +85,15 @@ netstat -tulpn
 ```sh
 wget -qO- bench.sh|bash
 ```
+
 #### Disk speed
 
 ```sh
-sudo apt install iotop
 iotop
 ```
 #### Network speed
 
 ```sh
-sudo apt install nload
 nload
 ```
 
