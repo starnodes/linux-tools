@@ -5,6 +5,12 @@ sudo apt update
 sudo apt install -y nftables
 ```
 
+### Check for Listening Ports
+
+```sh
+netstat -tulpn
+```
+
 ### Variables setup
 
 ```sh
