@@ -4,10 +4,19 @@ tools and scripts for linux systems
 ### change ssh port
 
 ```sh
-sudo sed -i 's/#Port 22/Port 34777/' /etc/ssh/sshd_config
-ufw allow 34777/tcp
+ssh_port=1022
+sudo sed -i 's/#Port 22/Port $ssh_port/' /etc/ssh/sshd_config
 systemctl restart sshd
 ```
+
+### Rust install
+
+```sh
+curl https://sh.rustup.rs -sSf | sh -s -- -y
+source "$HOME/.cargo/env" && \
+echo -e "\n$(cargo --version).\n"
+```
+
 ### change timezone
 
 Ubuntu
