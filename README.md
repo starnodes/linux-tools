@@ -81,6 +81,12 @@ sftp -P $port root@$srv_ip:/home/example.tar.gz /home
 tar xvf example.tar.gz
 ```
 
+http share folder 
+
+```sh
+python3 -m http.server 8181
+```
+
 ### Check for Listening Ports
 
 ```sh
