@@ -126,3 +126,8 @@ nload
 sudo setenforce 0
 sudo sed -i "s/SELINUX=enforcing/SELINUX=permissive/" /etc/selinux/config
 ```
+### ipv6 low priority
+
+```sh
+echo 'precedence ::ffff:0:0/96 100'  >> /etc/gai.conf
+```
