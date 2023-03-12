@@ -17,7 +17,8 @@ cd vpnserver; \
 mkdir /opt/vpnserver/
 mv -b vpnserver vpncmd hamcore.se2 /opt/vpnserver/
 
-PS3='Select Yes and create a local vpn bridge after installation by using New Tap Device "soft" (VPN will work faster this way), \nor select No if you want to use SecureNAT mode (easier to set up, but not as fast). \nSelect number: '
+printf "\nSelect Yes and create a local vpn bridge after installation by using New Tap Device "soft" (VPN will work faster this way), \nor select No if you want to use SecureNAT mode (easier to set up, but not as fast).\n\n"
+PS3='Select number: '
 options=("Yes" "No" "Quit")
 select opt in "${options[@]}"
 do
@@ -69,7 +70,7 @@ case $opt in
     esac
 done
 
-PS3='Do you need to install IPTABLES and remove UFW for local bridge FIREWALL setup? (ssh port used 22 or 34777) Select number: '
+PS3='Do you need to install IPTABLES and remove UFW for local bridge FIREWALL setup? (ssh port used 22 or 34777) | Select number: '
   options=("Yes" "No")
   select opt in "${options[@]}"
   do
