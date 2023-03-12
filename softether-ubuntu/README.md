@@ -1,6 +1,14 @@
-## Установка SoftEther VPN Server на Ubunta 20.04
+## Установка SoftEther VPN Server на Ubuntu 20.04
 
 ### quick start
+
+ports for opening
+
+```sh
+TCP Ports: 443, 992 and 5555
+UDP: 500 and 4500 // l2tp ipsec
+UDP: 1194 // ovpn
+```
 
 Install VPN Server
 
