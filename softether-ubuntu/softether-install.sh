@@ -17,7 +17,7 @@ cd vpnserver; \
 mkdir /opt/vpnserver/
 mv -b vpnserver vpncmd hamcore.se2 /opt/vpnserver/
 
-PS3='First connect to your SoftEther server with Manager and create local vpn bridge with New Tap Device "soft"! If unsure or are using SecureNAT, select No. Select number: '
+PS3='Select Yes and create a local vpn bridge after installation using New Tap Device "soft" (VPN will work faster this way), or select No if you want to use SecureNAT mode (easier to set up, but not as fast). Select number: '
 options=("Yes" "No" "Quit")
 select opt in "${options[@]}"
 do
@@ -120,3 +120,4 @@ rm -rf $HOME/vpnserver
 rm -f softethervpn.tar.gz
 rm -f softether-install.sh
 printf "\nAll done!!!\n\n"
+printf "\nYou can configure and load iptables manually: iptables-restore < /etc/iptables/rules.v4\n\n"
