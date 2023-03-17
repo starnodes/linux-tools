@@ -27,7 +27,7 @@ case $opt in
         printf "\nDNSMASQ setup.\n\n"
         apt install -y dnsmasq net-tools
         cp /etc/dnsmasq.conf /etc/dnsmasq.conf.bak
-        wget -qO /etc/dnsmasq.conf https://raw.githubusercontent.com/starnodes/linux-tools/main/softether-ubuntu/dnsmarq > /dev/null 2>&1
+        wget -qO /etc/dnsmasq.conf https://raw.githubusercontent.com/starnodes/linux-tools/main/softether-ubuntu/dnsmasq > /dev/null 2>&1
         printf "\nSystem daemon setup. Registering changes...\n\n"
         wget -qO /etc/init.d/vpnserver https://raw.githubusercontent.com/starnodes/linux-tools/main/softether-ubuntu/service-bridge > /dev/null 2>&1
         chmod 755 /etc/init.d/vpnserver
