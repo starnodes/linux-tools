@@ -5,3 +5,5 @@ interface=tap_soft
 dhcp-range=tap_soft,10.42.10.10,10.42.10.100,12h
 # Set DHCP default gateway
 dhcp-option=tap_soft,3,10.42.10.1
+# Set DNS server for clients
+dhcp-option=tap_soft,6,8.8.8.8
