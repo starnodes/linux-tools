@@ -3,12 +3,12 @@
 ### DOCKER INSTALL
 
 ```sh
-sudo apt install wget jq ca-certificates gnupg -y
-source /etc/*-release
-rm -f /usr/share/keyrings/docker-archive-keyring.gpg
-wget -qO- "https://download.docker.com/linux/${DISTRIB_ID,,}/gpg" | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
-echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/${DISTRIB_ID,,} ${DISTRIB_CODENAME} stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-sudo apt update
+sudo apt install wget jq ca-certificates gnupg -y && \
+source /etc/*-release && \
+rm -f /usr/share/keyrings/docker-archive-keyring.gpg && \
+wget -qO- "https://download.docker.com/linux/${DISTRIB_ID,,}/gpg" | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg && \
+echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/${DISTRIB_ID,,} ${DISTRIB_CODENAME} stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null && \
+sudo apt update && \
 sudo apt install docker-ce docker-ce-cli containerd.io -y
 ```
 ### DOCKER-COMPOSE INSTALL
@@ -18,6 +18,18 @@ docker_compose_version=`wget -qO- https://api.github.com/repos/docker/compose/re
 sudo wget -O /usr/bin/docker-compose "https://github.com/docker/compose/releases/download/${docker_compose_version}/docker-compose-`uname -s`-`uname -m`"
 sudo chmod +x /usr/bin/docker-compose
 docker-compose -v
+```
+
+Удалить все не связанные с контейнерами ресурсы, в том числе образы, контейнеры, тома и сети:
+
+```sh
+docker system prune
+```
+
+Удалить все остановленные контейнеры и неиспользуемые образы (а не только образы, не связанные с контейнерами), добавьте в эту команду флаг -a:
+
+```sh
+docker system prune -a
 ```
 
 ### UNINSALL
