@@ -2,7 +2,6 @@
 sudo apt install -y dante-server
 
 ETHWAN=`ip route get 8.8.8.8 | awk '{print $ 5}'`
-ufw allow 1080/tcp
 
 sudo tee /etc/danted.conf > /dev/null <<EOF
 logoutput: /var/log/socks.log
