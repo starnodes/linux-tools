@@ -53,7 +53,7 @@ sysctl -p
 
 ```sh
 sudo apt update
-sudo apt install htop mc curl tar wget clang pkg-config libssl-dev jq build-essential bsdmainutils git make ncdu gcc git jq chrony net-tools liblz4-tool iotop nload -y
+sudo apt install -y curl git build-essential jq lz4 unzip tar mc chrony htop ncdu nload screen -y
 ```
 
 ### ssh root login enable + random root password generation
