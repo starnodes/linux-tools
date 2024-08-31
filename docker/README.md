@@ -32,7 +32,7 @@ docker system prune
 docker system prune -a
 ```
 
-### UNINSALL
+### UNINSTALL
 
 ```sh
 sudo systemctl stop docker.service docker.socket
