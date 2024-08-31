@@ -53,7 +53,7 @@ sysctl -p
 
 ```sh
 sudo apt update
-sudo apt install -y curl git build-essential jq lz4 unzip tar mc chrony htop ncdu nload screen -y
+sudo apt install -y curl git build-essential jq lz4 unzip tar mc chrony htop ncdu nload screen
 ```
 
 ### ssh root login enable + random root password generation
